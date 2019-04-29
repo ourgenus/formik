@@ -123,13 +123,16 @@ export class Formik<Values = FormikValues> extends React.Component<
     this.setState({ errors });
   };
 
-  setTouched = (touched: FormikTouched<Values>) => {
+  setTouched = (
+    touched: FormikTouched<Values>,
+    maybeEvent?: React.FocusEvent<any>
+  ) => {
     this.setState({ touched }, () => {
       if (this.props.validateOnBlur) {
         this.runValidations(this.state.values);
       }
 
-      this.executeOnBlur();
+      this.executeOnBlur(maybeEvent);
     });
   };
 
@@ -484,7 +487,7 @@ export class Formik<Values = FormikValues> extends React.Component<
         touched: setIn(prevState.touched, field!, true),
       }));
 
-      this.executeOnBlur();
+      this.executeOnBlur(maybeEvent);
 
       if (this.props.validateOnBlur) {
         this.runValidations(this.state.values);
@@ -505,16 +508,17 @@ export class Formik<Values = FormikValues> extends React.Component<
     }
   };
 
-  executeOnBlur = () => {
+  executeOnBlur = (maybeEvent?: React.FocusEvent<any>) => {
     if (this.props.onBlur) {
-      this.props.onBlur(this.state.values, this.getFormikActions())
+      this.props.onBlur(this.state.values, this.getFormikActions(), maybeEvent);
     }
-  }
+  };
 
   setFieldTouched = (
     field: string,
     touched: boolean = true,
-    shouldValidate: boolean = true
+    shouldValidate: boolean = true,
+    maybeEvent?: React.FocusEvent<any>
   ) => {
     // Set touched field by name
     this.setState(
@@ -527,7 +531,7 @@ export class Formik<Values = FormikValues> extends React.Component<
           this.runValidations(this.state.values);
         }
 
-        this.executeOnBlur();
+        this.executeOnBlur(maybeEvent);
       }
     );
   };

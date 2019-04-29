@@ -78,7 +78,10 @@ export interface FormikActions<Values> {
   /** Manually set isSubmitting */
   setSubmitting(isSubmitting: boolean): void;
   /** Manually set touched object */
-  setTouched(touched: FormikTouched<Values>): void;
+  setTouched(
+    touched: FormikTouched<Values>,
+    maybeEvent?: React.FocusEvent<any>
+  ): void;
   /** Manually set values object  */
   setValues(values: Values): void;
   /** Set value of form field directly */
@@ -93,7 +96,8 @@ export interface FormikActions<Values> {
   setFieldTouched(
     field: keyof Values & string,
     isTouched?: boolean,
-    shouldValidate?: boolean
+    shouldValidate?: boolean,
+    maybeEvent?: React.FocusEvent<any>
   ): void;
   /** Validate form values */
   validateForm(values?: any): Promise<FormikErrors<Values>>;
@@ -209,7 +213,11 @@ export interface FormikConfig<Values> extends FormikSharedConfig {
   /**
    * Blur handler
    */
-  onBlur?: (values: Values, formikActions: FormikActions<Values>) => void;
+  onBlur?: (
+    values: Values,
+    formikActions: FormikActions<Values>,
+    maybeEvent?: React.FocusEvent<any>
+  ) => void;
 
   /**
    * A Yup Schema or a function that returns a Yup schema
