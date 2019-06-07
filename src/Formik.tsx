@@ -141,6 +141,10 @@ export class Formik<Values = FormikValues> extends React.Component<
       if (this.props.validateOnChange) {
         this.runValidations(values);
       }
+
+      if (this.props.notifyOnChange) {
+        this.props.notifyOnChange(values);
+      }
     });
   };
 
@@ -394,6 +398,10 @@ export class Formik<Values = FormikValues> extends React.Component<
         () => {
           if (this.props.validateOnChange && shouldValidate) {
             this.runValidations(this.state.values);
+          }
+
+          if (this.props.notifyOnChange) {
+            this.props.notifyOnChange(this.state.values);
           }
         }
       );
