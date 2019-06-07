@@ -354,6 +354,10 @@ export class Formik<Values = FormikValues> extends React.Component<
             if (this.props.validateOnChange) {
               this.runValidations(setIn(this.state.values, field!, value));
             }
+
+            if (this.props.notifyOnChange) {
+              this.props.notifyOnChange(this.state.values);
+            }
           }
         );
       }
